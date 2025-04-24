@@ -1,9 +1,7 @@
-//@ts-expect-error: Will be resolved by wrangler build
 import { runWithCloudflareRequestContext } from "./cloudflare/init.js";
+import { createAgent, createTool, createVectorStore, createDurableChat, createKVStore, createR2Store, createD1Store } from 'vercel/ai-chat';
 
-//@ts-expect-error: Will be resolved by wrangler build
 export { DOQueueHandler } from "./.build/durable-objects/queue.js";
-//@ts-expect-error: Will be resolved by wrangler build
 export { DOShardedTagCache } from "./.build/durable-objects/sharded-tag-cache.js";
 
 export default {
@@ -11,8 +9,34 @@ export default {
     return runWithCloudflareRequestContext(request, env, ctx, async () => {
       const url = new URL(request.url);
 
+      if (url.pathname === '/api/agent') {
+        const apiKey = request.headers.get('API_KEY');
+        if (!apiKey || apiKey !== env.API_KEY) {
+          return new Response('Unauthorized', { status: 401 });
+        }
+
+        const agent = createAgent({
+          tools: [
+            createTool('vectorization', createVectorStore(env.VECTOR_STORE)),
+            createTool('durable-chat', createDurableChat(env.DURABLE_CHAT)),
+            createTool('kv', createKVStore(env.KV_STORE)),
+            createTool('r2', createR2Store(env.R2_STORE)),
+            createTool('d1', createD1Store(env.D1_STORE)),
+          ],
+        });
+
+        return new Response(JSON.stringify(agent), { status: 200 });
+      }
+
+      if (url.pathname === '/api/openapi') {
+        return new Response(JSON.stringify(env.OPEN_API_SPEC), { status: 200 });
+      }
+
+      if (url.pathname === '/api/readme') {
+        return new Response(env.README_CONTENT, { status: 200 });
+      }
+
       // Serve images in development.
-      // Note: "/cdn-cgi/image/..." requests do not reach production workers.
       if (url.pathname.startsWith("/cdn-cgi/image/")) {
         const m = url.pathname.match(/\/cdn-cgi\/image\/.+?\/(?<url>.+)$/);
         if (m === null) {
@@ -32,7 +56,6 @@ export default {
           : fetch(imageUrl, { cf: { cacheEverything: true } });
       }
 
-      // @ts-expect-error: resolved by wrangler build
       const { handler } = await import("./server-functions/default/handler.mjs");
 
       return handler(request, env, ctx);

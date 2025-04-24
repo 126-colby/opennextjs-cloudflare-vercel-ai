@@ -39,3 +39,33 @@ npm i https://pkg.pr.new/@opennextjs/cloudflare@main
 ### How to develop in the repository
 
 See the [CONTRIBUTING](./CONTRIBUTING.md) page for how to get started with this repository.
+
+## Deploying vercel/ai-chat on Cloudflare Workers
+
+This repository includes an example of running `vercel/ai-chat` on Cloudflare Workers. Follow the steps below to set up and configure the worker.
+
+### Steps to set up and configure the worker
+
+1. **Create the directory**: Create a new directory `examples/vercel-ai-chat` to demonstrate running `vercel/ai-chat` on Cloudflare Workers.
+
+2. **Add worker file**: Add a new worker file `examples/vercel-ai-chat/worker.ts` to handle requests for `vercel/ai-chat`.
+
+3. **Add package.json**: Add a new `package.json` file in `examples/vercel-ai-chat` to manage dependencies for `vercel/ai-chat`.
+
+4. **Add wrangler.jsonc**: Add a new `wrangler.jsonc` file in `examples/vercel-ai-chat` to configure the worker for `vercel/ai-chat`.
+
+5. **Add worker-configuration.d.ts**: Add a new `worker-configuration.d.ts` file in `examples/vercel-ai-chat` to define Cloudflare environment variables.
+
+6. **Update cloudflare-context.ts**: Update `packages/cloudflare/src/api/cloudflare-context.ts` to include necessary environment variables for `vercel/ai-chat`.
+
+7. **Update worker.ts template**: Update `packages/cloudflare/src/cli/templates/worker.ts` to handle requests for `vercel/ai-chat`.
+
+8. **Deploy the worker**: Use the provided scripts in `package.json` to build and preview the worker.
+
+9. **Serve endpoints**: Implement logic to serve endpoints for `OpenApiSpec.json` and `README.md` content.
+
+10. **Authorize by API_KEY**: Create an endpoint that authorizes by `API_KEY` so that the agent can also be utilized by other services.
+
+11. **Bind instances**: Bind vectorization, durable chat, kv, r2, and d1 instances.
+
+12. **Documentation**: Refer to this README for guidance on deploying `vercel/ai-chat` using this framework.

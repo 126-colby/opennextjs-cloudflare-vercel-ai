@@ -50,6 +50,16 @@ declare global {
     // Disable SQLite for the durable object queue handler
     // This can be safely used if you don't use an eventually consistent incremental cache (i.e. R2 without the regional cache for example)
     NEXT_CACHE_DO_QUEUE_DISABLE_SQLITE?: string;
+
+    // Environment variables for vercel/ai-chat
+    API_KEY?: string;
+    VECTOR_STORE?: string;
+    DURABLE_CHAT?: DurableObjectNamespace;
+    KV_STORE?: KVNamespace;
+    R2_STORE?: R2Bucket;
+    D1_STORE?: D1Database;
+    OPEN_API_SPEC?: string;
+    README_CONTENT?: string;
   }
 }
 
