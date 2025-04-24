@@ -1,4 +1,4 @@
-import { createAgent, createTool, createVectorStore, createDurableChat, createKVStore, createR2Store, createD1Store } from 'vercel/ai-chat';
+import { createAgent, createTool, createVectorStore, createDurableChat, createKVStore, createR2Store, createD1Store, createChatUI } from 'vercel/ai-chat';
 
 export function createAIBinding(env) {
   return createAgent({
@@ -8,6 +8,7 @@ export function createAIBinding(env) {
       createTool('kv', createKVStore(env.KV_STORE)),
       createTool('r2', createR2Store(env.R2_STORE)),
       createTool('d1', createD1Store(env.D1_STORE)),
+      createChatUI()
     ],
   });
 }

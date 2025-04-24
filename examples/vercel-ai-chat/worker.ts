@@ -1,4 +1,4 @@
-import { createAgent, createTool, createVectorStore, createDurableChat, createKVStore, createR2Store, createD1Store } from 'vercel/ai-chat';
+import { createAgent, createTool, createVectorStore, createDurableChat, createKVStore, createR2Store, createD1Store, createChatUI } from 'vercel/ai-chat';
 
 export default {
   async fetch(request, env, ctx) {
@@ -29,6 +29,11 @@ export default {
 
     if (url.pathname === '/api/readme') {
       return new Response(env.README_CONTENT, { status: 200 });
+    }
+
+    if (url.pathname === '/') {
+      const chatUI = createChatUI();
+      return new Response(chatUI, { status: 200, headers: { 'Content-Type': 'text/html' } });
     }
 
     return new Response('Not Found', { status: 404 });
