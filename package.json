@@ -7,7 +7,9 @@
     "@changesets/cli": "^2.27.9",
     "@playwright/test": "catalog:",
     "pkg-pr-new": "^0.0.29",
-    "prettier": "3.3.3"
+    "prettier": "3.3.3",
+    "@cloudflare/workers-types": "^4.20240222.0",
+    "wrangler": "^3.32.0"
   },
   "scripts": {
     "fix": "pnpm prettier:fix && pnpm lint:fix",
@@ -23,6 +25,12 @@
     "code:checks": "pnpm prettier:check && pnpm lint:check && pnpm ts:check",
     "install-playwright": "playwright install --with-deps",
     "postinstall": "pnpm --filter cloudflare build",
-    "benchmark": "pnpm run --filter benchmarking benchmark"
+    "benchmark": "pnpm run --filter benchmarking benchmark",
+    "dev:worker": "wrangler dev",
+    "deploy:worker": "wrangler deploy",
+    "pages:build": "npx @cloudflare/next-on-pages@1",
+    "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
+    "pages:watch": "npx @cloudflare/next-on-pages@1 --watch",
+    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat"
   }
 }

@@ -39,5 +39,9 @@
     "VECTOR_STORE": "<VECTOR_STORE_BINDING_ID>",
     "OPEN_API_SPEC": "<OPEN_API_SPEC>",
     "README_CONTENT": "<README_CONTENT>"
+  },
+  "log": {
+    "level": "info",
+    "format": "json"
   }
 }

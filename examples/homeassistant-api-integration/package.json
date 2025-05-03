@@ -1,0 +1,12 @@
+{
+  "name": "homeassistant-api-integration",
+  "version": "1.0.0",
+  "description": "Integration with Home Assistant API",
+  "main": "index.js",
+  "scripts": {
+    "start:homeassistant": "node index.js"
+  },
+  "dependencies": {
+    "homeassistant": "^1.0.0"
+  }
+}

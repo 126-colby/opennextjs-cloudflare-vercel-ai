@@ -69,3 +69,63 @@ This repository includes an example of running `vercel/ai-chat` on Cloudflare Wo
 11. **Bind instances**: Bind vectorization, durable chat, kv, r2, and d1 instances.
 
 12. **Documentation**: Refer to this README for guidance on deploying `vercel/ai-chat` using this framework.
+
+## Configuring GitHub Deploy to Cloudflare Worker GitHub Action
+
+Follow these steps to configure the GitHub deploy to Cloudflare worker GitHub action:
+
+1. **Create GitHub Actions Workflow**: Create a new GitHub Actions workflow file `.github/workflows/cloudflare-deploy.yml` with the following content:
+
+    ```yaml
+    name: Deploy to Cloudflare Workers
+
+    on:
+      push:
+        branches:
+          - main
+      workflow_dispatch:
+
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
+        name: Deploy
+        steps:
+          - uses: actions/checkout@v4
+          
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+              node-version: '20'
+              cache: 'npm'
+              
+          - name: Install dependencies
+            run: npm ci
+          
+          - name: Build application
+            run: npm run build
+          
+          - name: Publish to Cloudflare
+            uses: cloudflare/wrangler-action@v3
+            with:
+              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+              accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+              command: deploy
+    ```
+
+2. **Add GitHub Secrets**: Add the following secrets to your GitHub repository:
+    - `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token with Workers permissions
+    - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID
+
+3. **Commit and Push Changes**: Commit and push your changes to the `main` branch.
+
+## Kicking Off a Deployment from GitHub to Cloudflare
+
+To kick off a deployment from GitHub to Cloudflare, follow these steps:
+
+1. **Push to Main Branch**: Push your changes to the `main` branch. This will trigger the GitHub Actions workflow to deploy your application to Cloudflare Workers.
+
+2. **Monitor GitHub Actions**: Navigate to the "Actions" tab in your GitHub repository to monitor the deployment process. You can view detailed logs and status of each step in the workflow.
+
+3. **Verify Deployment**: Once the deployment is complete, verify that your application is running on Cloudflare Workers by accessing the deployed URL.
+
+By following these steps, you can configure and kick off a deployment from GitHub to Cloudflare Workers using the provided GitHub Actions workflow.

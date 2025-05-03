@@ -1,0 +1,24 @@
+name = "nextjs-cloudflare-app"
+main = ".vercel/output/functions/_worker.js"
+compatibility_date = "2023-12-01"
+
+[site]
+bucket = ".vercel/output/static"
+
+[build]
+command = "npm run build"
+
+[env.production]
+workers_dev = true
+vars = { ENVIRONMENT = "production" }
+
+[vars]
+# Default variables for all environments
+NEXT_PUBLIC_API_URL = "https://api.example.com"
+
+[env.production.vars]
+# Production-specific variables
+NODE_ENV = "production"
+
+[observability]
+log_level = "info"

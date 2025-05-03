@@ -11,7 +11,12 @@
     "preview:worker": "pnpm opennextjs-cloudflare preview",
     "preview": "pnpm build:worker && pnpm preview:worker",
     "e2e": "playwright test -c e2e/playwright.config.ts",
-    "deploy:worker": "pnpm run build:worker && pnpm wrangler deploy"
+    "deploy:worker": "pnpm run build:worker && pnpm wrangler deploy",
+    "dev:worker": "wrangler dev",
+    "pages:build": "npx @cloudflare/next-on-pages@1",
+    "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
+    "pages:watch": "npx @cloudflare/next-on-pages@1 --watch",
+    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -26,6 +31,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "catalog:",
-    "wrangler": "catalog:"
+    "wrangler": "catalog:",
+    "@cloudflare/workers-types": "^4.20240222.0"
   }
 }
